@@ -4,6 +4,7 @@ import TransactionTable from "./components/TransactionTable";
 import AddTransactionForm from "./components/AddTransactionForm";
 import Insights from "./components/Insights";
 import { useAppContext } from "./context/AppContext";
+import SpendingChart from "./components/SpendingChart";
 
 function App() {
   const { transactions, role, setRole } = useAppContext();

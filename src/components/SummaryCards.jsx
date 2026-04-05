@@ -5,20 +5,20 @@ const SummaryCards = ({ income = 0, expenses = 0, balance = 0 }) => {
         {
             title: "Total Balance",
             amount: balance,
-            color: "bg-blue-500",
             textColor: "text-blue-600 dark:text-blue-400",
+            bgCircle: "bg-blue-500",
         },
         {
             title: "Income",
             amount: income,
-            color: "bg-green-500",
             textColor: "text-green-600 dark:text-green-400",
+            bgCircle: "bg-green-500",
         },
         {
             title: "Expenses",
             amount: expenses,
-            color: "bg-red-500",
             textColor: "text-red-600 dark:text-red-400",
+            bgCircle: "bg-red-500",
         },
     ];
 
@@ -28,7 +28,7 @@ const SummaryCards = ({ income = 0, expenses = 0, balance = 0 }) => {
                 <div
                     key={index}
                     className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md 
-                     flex justify-between items-center 
+                     flex justify-between items-center
                      hover:shadow-xl hover:-translate-y-1 
                      transition-all duration-300"
                 >
@@ -43,9 +43,9 @@ const SummaryCards = ({ income = 0, expenses = 0, balance = 0 }) => {
                         </p>
                     </div>
 
-                    {/* Right Indicator */}
+                    {/* Right Circle Indicator */}
                     <div
-                        className={`w-12 h-12 rounded-full ${card.color} opacity-20`}
+                        className={`w-12 h-12 rounded-full ${card.bgCircle} opacity-20`}
                     ></div>
                 </div>
             ))}
