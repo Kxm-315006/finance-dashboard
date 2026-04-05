@@ -3,38 +3,36 @@ import SummaryCards from "./components/SummaryCards";
 import TransactionTable from "./components/TransactionTable";
 import AddTransactionForm from "./components/AddTransactionForm";
 import Insights from "./components/Insights";
-import { useAppContext } from "./context/AppContext";
 import SpendingChart from "./components/SpendingChart";
+import { useAppContext } from "./context/AppContext";
 
 function App() {
   const { transactions, role, setRole } = useAppContext();
 
   const [darkMode, setDarkMode] = useState(false);
 
-  // 🔥 Proper Dark Mode Handling
+  // ✅ Fix dark mode properly
   useEffect(() => {
-    const root = document.documentElement;
-
     if (darkMode) {
-      root.classList.add("dark");
+      document.documentElement.classList.add("dark");
     } else {
-      root.classList.remove("dark");
+      document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
 
-  // 📊 Calculations
-  const income = transactions
+  // ✅ Calculate values safely
+  const income = (transactions || [])
     .filter((t) => t.type === "income")
     .reduce((acc, t) => acc + t.amount, 0);
 
-  const expenses = transactions
+  const expenses = (transactions || [])
     .filter((t) => t.type === "expense")
     .reduce((acc, t) => acc + t.amount, 0);
 
   const balance = income - expenses;
 
   return (
-    <div className="min-h-screen transition-all duration-300 p-4 md:p-6 bg-white dark:bg-gray-900 dark:text-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900 dark:text-white transition-all duration-300 p-4 md:p-6">
       <div className="max-w-6xl mx-auto">
 
         {/* 🔹 Header */}
@@ -46,7 +44,7 @@ function App() {
 
           <div className="flex gap-3 items-center">
 
-            {/* Role Switch */}
+            {/* Role Selector */}
             <select
               className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               value={role}
@@ -56,7 +54,7 @@ function App() {
               <option value="admin">Admin</option>
             </select>
 
-            {/* Theme Toggle */}
+            {/* Dark Mode Toggle */}
             <button
               onClick={() => setDarkMode((prev) => !prev)}
               className="px-3 py-1 border rounded dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
@@ -67,12 +65,17 @@ function App() {
           </div>
         </div>
 
-        {/* 🔹 Summary */}
+        {/* 🔹 Summary Cards */}
         <SummaryCards
           income={income}
           expenses={expenses}
           balance={balance}
         />
+
+        {/* 🔥 IMPORTANT: Chart gets transactions */}
+        <div className="mt-6">
+          <SpendingChart transactions={transactions || []} />
+        </div>
 
         {/* 🔹 Admin Form */}
         {role === "admin" && (
@@ -83,12 +86,12 @@ function App() {
 
         {/* 🔹 Insights */}
         <div className="mt-6">
-          <Insights transactions={transactions} />
+          <Insights transactions={transactions || []} />
         </div>
 
-        {/* 🔹 Table */}
+        {/* 🔹 Transactions Table */}
         <div className="mt-6">
-          <TransactionTable transactions={transactions} />
+          <TransactionTable transactions={transactions || []} />
         </div>
 
       </div>
